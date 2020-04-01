@@ -3,14 +3,14 @@
 /* eslint-disable no-undef */
 /* eslint-disable no-console */
 /* eslint-disable linebreak-style */
-import React, { useEffect, useState } from 'react';
+import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
 import {
   Budget,
-  TasksProgress,
-  LatestSales
+  // TasksProgress,
+  ListAreas
 } from './components';
 
 const useStyles = makeStyles(
@@ -24,10 +24,8 @@ const useStyles = makeStyles(
 );
 
 const Areas = () => {
-  const classes = useStyles();
-  const [dataAreas, setDataAreas] = useState({});
+  const classes = useStyles();  
   
-
   return (
     <div className={classes.root}>
       <Grid
@@ -42,7 +40,7 @@ const Areas = () => {
           xl={9}
           xs={12}
         >
-          <Budget />
+          {/* <Budget /> */}
         </Grid>
 
         <Grid
@@ -52,10 +50,10 @@ const Areas = () => {
           xl={9}
           xs={12}
         >
-          <LatestSales />
+          <ListAreas />
         </Grid>
 
-        <Grid
+        {/* <Grid
           item
           lg={4}
           md={6}
@@ -63,7 +61,7 @@ const Areas = () => {
           xs={12}
         >
           <TasksProgress />
-        </Grid>
+        </Grid> */}
 
       </Grid>
     </div>

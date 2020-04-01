@@ -20,7 +20,8 @@ const ColorLinearProgress = withStyles({
 const useStyles = makeStyles(theme => ({
   root: {
     flexGrow: 1,
-    justifyContent:'center'
+    justifyContent:'center',
+    width:'100vw'
   },
   margin: {
     margin: theme.spacing(1),
