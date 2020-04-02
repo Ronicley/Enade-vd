@@ -27,3 +27,12 @@ export async function getErrosByRegion(region, course){
         console.error(error)
     }
 };
+
+export async function getHitsByRegion(region, course){    
+    try {
+        result = await api.get(`hitsbyregion/${region}/${course}`)
+        return result
+    } catch (error) {
+        console.error(error)
+    }
+};

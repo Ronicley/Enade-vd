@@ -48,19 +48,23 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const ErrosByRegion = props => {
+const HitsByRegion = props => {
   const [loading, setLoading] = useState(false);
   const [obj, setObj] = useState();
+
+    
   async function loadingData(r, c) {
     let totalQuest = 0;
-    let qtd = 0;
-    try {
-      const { data } = await RegionsService.getErrosByRegion(r, c);
+    let qtd = 0;    
 
-      await data.forEach(element => {
-        qtd = element.qtd_erradas + qtd;
+    try {
+      const { data } = await RegionsService.getHitsByRegion(r, c);
+
+      data.forEach(element => {
+        qtd = element.qtd_certas + qtd;
         totalQuest = element.qtd_questoes + totalQuest;
       });
+      
 
       return (qtd / totalQuest) * 100;
     } catch (error) {
@@ -89,70 +93,71 @@ const ErrosByRegion = props => {
     // 3 "Engenharia da Computação"
 
     //getErrosByRegion(região, curso);
-
     (async () => {
-      await loadingData(1, 1).then(async snapshot => {
+      await loadingData(1, 1).then(snapshot => {
         obj.ciencia.push(snapshot);
       });
 
-      await loadingData(1, 2).then(async snapshot => {
+      await loadingData(1, 2).then(snapshot => {
         obj.sistemas.push(snapshot);
       });
 
-      await loadingData(1, 3).then(async snapshot => {
+      await loadingData(1, 3).then(snapshot => {
         obj.engenharia.push(snapshot);
       });
 
-      await loadingData(2, 1).then(async snapshot => {
+      await loadingData(2, 1).then(snapshot => {
         obj.ciencia.push(snapshot);
       });
 
-      await loadingData(2, 2).then(async snapshot => {
+      await loadingData(2, 2).then(snapshot => {
         obj.sistemas.push(snapshot);
       });
 
-      await loadingData(2, 3).then(async snapshot => {
+      await loadingData(2, 3).then(snapshot => {
         obj.engenharia.push(snapshot);
       });
 
-      await loadingData(3, 1).then(async snapshot => {
+      await loadingData(3, 1).then(snapshot => {
         obj.ciencia.push(snapshot);
       });
 
-      await loadingData(3, 2).then(async snapshot => {
+      await loadingData(3, 2).then(snapshot => {
         obj.sistemas.push(snapshot);
       });
 
-      await loadingData(3, 3).then(async snapshot => {
+      await loadingData(3, 3).then(snapshot => {
         obj.engenharia.push(snapshot);
       });
 
-      await loadingData(4, 1).then(async snapshot => {
+      await loadingData(4, 1).then(snapshot => {
         obj.ciencia.push(snapshot);
       });
 
-      await loadingData(4, 2).then(async snapshot => {
+      await loadingData(4, 2).then(snapshot => {
         obj.sistemas.push(snapshot);
       });
 
-      await loadingData(4, 3).then(async snapshot => {
+      await loadingData(4, 3).then(snapshot => {
         obj.engenharia.push(snapshot);
       });
 
-      await loadingData(5, 1).then(async snapshot => {
+      await loadingData(5, 1).then(snapshot => {
         obj.ciencia.push(snapshot);
       });
 
-      await loadingData(5, 2).then(async snapshot => {
+      await loadingData(5, 2).then(snapshot => {
         obj.sistemas.push(snapshot);
       });
 
-      await loadingData(5, 3).then(async snapshot => {
+      await loadingData(5, 3).then(snapshot => {
         obj.engenharia.push(snapshot);
       });
 
+      // setTimeout(() => {
       setObj(obj);
       setLoading(false);
+      // }, 10000);
     })();
   }, []);
 
@@ -165,7 +170,7 @@ const ErrosByRegion = props => {
       {...rest}
       className={clsx(classes.root, className)}
     >
-      <CardHeader title="Curso com mais erros por região" />
+      <CardHeader title="Curso com mais acertos por região" />
       <Divider />
       <CardContent>
         <div className={classes.chartContainer}>
@@ -175,7 +180,7 @@ const ErrosByRegion = props => {
             </div>
           ) : (
             <div className={classes.center}>
-              <span className={classes.percentErrors}>% de erros</span>
+              <span className={classes.percentErrors}>% de acertos</span>
               <Chart
                 chartType="Bar"
                 className={classes.char}
@@ -230,8 +235,8 @@ const ErrosByRegion = props => {
   );
 };
 
-ErrosByRegion.propTypes = {
+HitsByRegion.propTypes = {
   className: PropTypes.string
 };
 
-export default ErrosByRegion;
+export default HitsByRegion;

@@ -5,7 +5,8 @@ import { Grid } from '@material-ui/core';
 
 import {
   ErrosByRegion,
-  LatestSales
+  ListRegions,
+  HitsByRegion
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -33,6 +34,17 @@ const Regions = () => {
         >
           <ErrosByRegion />
         </Grid>
+
+        <Grid
+        item
+        lg={12}
+        md={8}
+        xl={9}
+        xs={12}   
+        >
+          <HitsByRegion />
+        </Grid>
+        
         <Grid
           item
           lg={5}
@@ -40,8 +52,10 @@ const Regions = () => {
           xl={9}
           xs={12}
         >
-          <LatestSales />
+          <ListRegions />
         </Grid>
+
+        
         
       </Grid>
     </div>
