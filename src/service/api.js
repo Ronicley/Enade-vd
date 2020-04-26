@@ -1,12 +1,11 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable indent */
-/* eslint-disable linebreak-style */
-/* eslint-disable no-undef */
+
 import axios from 'axios';
+
+// eslint-disable-next-line no-undef
+const BASEURL = process.env.NODE_ENV === 'production' ? 'https://enadevmapi.herokuapp.com/': 'http://127.0.0.1:8000/';
 
 export default axios.create(
   {
-    // baseURL: 'https://enadedm-api.herokuapp.com/'
-    baseURL: 'http://127.0.0.1:8000/'
+    baseURL: BASEURL
   }
 );

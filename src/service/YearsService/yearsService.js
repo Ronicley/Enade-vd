@@ -5,12 +5,13 @@
 /* eslint-disable linebreak-style */
 /* eslint-disable no-unused-vars */
 
-import api from 'service/api';
+import api from '../api';
 
-export async function AreasService() {
-    let result;
+let result;
+
+export async function yearsService() {
     try {
-        result = await api.get('areas'); 
+        result = await api.get('anos');
         return result;
 
     } catch (e) {
@@ -18,13 +19,11 @@ export async function AreasService() {
     }
 }
 
-export async function NumberOfQuestionByArea() {
-    let result;
+export async function getVolumeIncByYear(year) {
     try {
-        result = await api.get('number-of-questions-by-area');
+        result = await api.get(`resultados-por-anos/${year}`);
         return result;
-
-    } catch (e) {
-        console.error(e);
+    } catch (error) {
+        console.error(error);
     }
 }

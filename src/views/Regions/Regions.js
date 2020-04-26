@@ -30,21 +30,21 @@ const Regions = () => {
           lg={12}
           md={8}
           xl={9}
-          xs={12}          
+          xs={12}
         >
-          <ErrosByRegion />
+          <ErrosByRegion/>
         </Grid>
 
         <Grid
-        item
-        lg={12}
-        md={8}
-        xl={9}
-        xs={12}   
+          item
+          lg={12}
+          md={8}
+          xl={9}
+          xs={12}
         >
-          <HitsByRegion />
+          <HitsByRegion/>
         </Grid>
-        
+
         <Grid
           item
           lg={5}
@@ -52,11 +52,10 @@ const Regions = () => {
           xl={9}
           xs={12}
         >
-          <ListRegions />
+          <ListRegions/>
         </Grid>
 
-        
-        
+
       </Grid>
     </div>
   );

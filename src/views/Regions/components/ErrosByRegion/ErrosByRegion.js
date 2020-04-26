@@ -15,18 +15,6 @@ const useStyles = makeStyles(theme => ({
     position: 'relative',
     height: '300px'
   },
-  stats: {
-    marginTop: theme.spacing(2),
-    display: 'flex',
-    justifyContent: 'center'
-  },
-  device: {
-    textAlign: 'center',
-    padding: theme.spacing(1)
-  },
-  deviceIcon: {
-    color: theme.palette.icon
-  },
   center: {
     alignItems: 'center',
     display: 'flex',

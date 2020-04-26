@@ -1,7 +1,7 @@
-/* eslint-disable linebreak-style */
-/* eslint-disable indent */
-import { AreasService } from './areasService';
+
+import { AreasService, NumberOfQuestionByArea } from './areasService';
 
 export default{
-    AreasService
+    AreasService,
+    NumberOfQuestionByArea
 };

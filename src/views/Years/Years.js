@@ -4,8 +4,7 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
 import {
-
-  LatestSales,
+  IncidencesByYear,
   UsersByDevice,
 
 } from './components';
@@ -32,7 +31,7 @@ const Years = () => {
           xl={9}
           xs={12}
         >
-          <LatestSales />
+          <IncidencesByYear />
         </Grid>
         
         <Grid
