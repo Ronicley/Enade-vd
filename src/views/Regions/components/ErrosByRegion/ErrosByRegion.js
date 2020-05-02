@@ -3,223 +3,172 @@ import { Chart } from 'react-google-charts';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
-import { Card, CardHeader, CardContent, Divider } from '@material-ui/core';
+import { Card, CardHeader, CardContent, Divider, CardActions } from '@material-ui/core';
 import { CircularIndeterminate } from '../../../../components/Loading';
 import RegionsService from '../../../../service/RegionsService';
+import TextField from '@material-ui/core/TextField';
+import MenuItem from '@material-ui/core/MenuItem';
 
 const useStyles = makeStyles(theme => ({
-  root: {
-    height: '100%'
-  },
-  chartContainer: {
-    position: 'relative',
-    height: '300px'
-  },
-  center: {
-    alignItems: 'center',
-    display: 'flex',
-    flexDirection: 'row',
-    flexWrap: 'wrap',
-    justifyContent: 'center',
-    height: '100%'
-  },
-  percentErrors: {
-    fontFamily: 'Roboto',
-    fontSize: '12px',
-    left: 0,
-    marginLeft: 0,
-    transform: 'rotate(270deg)',
-    position: 'absolute'
-  },
-  char: {
-    marginLeft: '1.5em'
-  }
+    root: {
+        height: '100%'
+    },
+    chartContainer: {
+        position: 'relative',
+        height: '300px'
+    },
+    center: {
+        alignItems: 'center',
+        display: 'flex',
+        flexDirection: 'row',
+        flexWrap: 'wrap',
+        justifyContent: 'center',
+        height: '100%'
+    },
+    percentErrors: {
+        fontFamily: 'Roboto',
+        fontSize: '12px',
+        left: 0,
+        marginLeft: 0,
+        transform: 'rotate(270deg)',
+        position: 'absolute'
+    },
+    char: {
+        marginLeft: '1.5em'
+    },
+    textField: {
+        flex: 1,
+        float: 'left'
+    }
 }));
 
 const ErrosByRegion = props => {
-  const [loading, setLoading] = useState(false);
-  const [obj, setObj] = useState();
-  async function loadingData(r, c) {
-    let totalQuest = 0;
-    let qtd = 0;
-    try {
-      const { data } = await RegionsService.getErrosByRegion(r, c);
+        const [loading, setLoading] = useState(false);
+        const [data, setData] = useState([]);
+        const [year, setYear] = useState('1');
+        const [field, setField] = useState('Dados dos anos de 2008, 2011, 2014');
 
-      await data.forEach(element => {
-        qtd = element.qtd_erradas + qtd;
-        totalQuest = element.qtd_questoes + totalQuest;
-      });
+        const handleChange = (event) => {
+            let year = event.target.value;
+            year==="1"? (
+                setField(`Dados para os anos de 2008, 2011 e 2014`)
+            ):(
+                setField(`Dados para o ano de ${year}`)
+            );
 
-      return (qtd / totalQuest) * 100;
-    } catch (error) {
-      console.error(error);
-      setLoading(false);
+            setYear(year);
+        };
+
+        const years = [
+            {
+                value: '1',
+                label: 'Todos'
+            },
+            {
+                value: '2008',
+                label: '2008'
+            },
+            {
+                value: '2011',
+                label: '2011'
+            },
+            {
+                value: '2014',
+                label: '2014'
+            }
+        ];
+
+        async function loadingData(year) {
+            setLoading(true);
+            try {
+                const data = await RegionsService.getErrosByRegion(year);
+
+                let d = [];
+                d.push(['Regiões', 'Ciência da Computação', 'Sistemas de informação', 'Engenharia de Software']);
+
+                data.data.forEach((item) => {
+                    d.push([
+                        item.regiao,
+                        item.cc,
+                        item.ss,
+                        item.eng
+                    ]);
+
+                });
+                setData(d);
+            } catch (error) {
+                console.error(error);
+                setLoading(false);
+            }
+        }
+
+
+        useEffect(() => {
+            loadingData(year);
+            setLoading(false);
+        }, [year]);
+
+        const { className, ...rest } = props;
+
+        const classes = useStyles();
+
+        return (
+            <Card
+                {...rest}
+                className={clsx(classes.root, className)}
+            >
+                <CardHeader title="Curso com mais erros por região"/>
+                <CardActions>
+                    <TextField
+                        id="standard-select-currency"
+                        select
+                        className={classes.textField}
+                        label="Anos"
+                        value={year}
+                        onChange={handleChange}
+                    >
+                        {years.map((option) => (
+                            <MenuItem key={option.value} value={option.value}>
+                                {option.label}
+                            </MenuItem>
+                        ))}
+                    </TextField>
+                </CardActions>
+                <Divider/>
+                <CardContent>
+                    <div className={classes.chartContainer}>
+                        {loading ? (
+                            <div className={classes.center}>
+                                <CircularIndeterminate/>
+                            </div>
+                        ) : (
+                            <div className={classes.center}>
+                                <span className={classes.percentErrors}>% de erros</span>
+                                <Chart
+                                    chartType="Bar"
+                                    className={classes.char}
+                                    data={data}
+                                    height={'100%'}
+                                    // For tests
+                                    options={{
+                                        chart: {
+                                            title: field
+                                        }
+                                    }}
+                                    rootProps={{ 'data-testid': '2' }}
+                                    width={'95%'}
+                                />
+                            </div>
+                        )}
+                    </div>
+                </CardContent>
+            </Card>
+        );
     }
-  }
-
-  useEffect(() => {
-    setLoading(true);
-
-    let obj = {
-      ciencia: [],
-      sistemas: [],
-      engenharia: []
-    };
-
-    // 1	Norte
-    // 2	Nordeste
-    // 3	Centro-Oeste
-    // 4	Sudeste
-    // 5	Sul
-
-    // 1 "Ciência da Computação"
-    // 2 "Sistemas de Informação"
-    // 3 "Engenharia da Computação"
-
-    //getErrosByRegion(região, curso);
-
-    (async () => {
-      await loadingData(1, 1).then(async snapshot => {
-        obj.ciencia.push(snapshot);
-      });
-
-      await loadingData(1, 2).then(async snapshot => {
-        obj.sistemas.push(snapshot);
-      });
-
-      await loadingData(1, 3).then(async snapshot => {
-        obj.engenharia.push(snapshot);
-      });
-
-      await loadingData(2, 1).then(async snapshot => {
-        obj.ciencia.push(snapshot);
-      });
-
-      await loadingData(2, 2).then(async snapshot => {
-        obj.sistemas.push(snapshot);
-      });
-
-      await loadingData(2, 3).then(async snapshot => {
-        obj.engenharia.push(snapshot);
-      });
-
-      await loadingData(3, 1).then(async snapshot => {
-        obj.ciencia.push(snapshot);
-      });
-
-      await loadingData(3, 2).then(async snapshot => {
-        obj.sistemas.push(snapshot);
-      });
-
-      await loadingData(3, 3).then(async snapshot => {
-        obj.engenharia.push(snapshot);
-      });
-
-      await loadingData(4, 1).then(async snapshot => {
-        obj.ciencia.push(snapshot);
-      });
-
-      await loadingData(4, 2).then(async snapshot => {
-        obj.sistemas.push(snapshot);
-      });
-
-      await loadingData(4, 3).then(async snapshot => {
-        obj.engenharia.push(snapshot);
-      });
-
-      await loadingData(5, 1).then(async snapshot => {
-        obj.ciencia.push(snapshot);
-      });
-
-      await loadingData(5, 2).then(async snapshot => {
-        obj.sistemas.push(snapshot);
-      });
-
-      await loadingData(5, 3).then(async snapshot => {
-        obj.engenharia.push(snapshot);
-      });
-
-      setObj(obj);
-      setLoading(false);
-    })();
-  }, []);
-
-  const { className, ...rest } = props;
-
-  const classes = useStyles();
-
-  return (
-    <Card
-      {...rest}
-      className={clsx(classes.root, className)}
-    >
-      <CardHeader title="Curso com mais erros por região" />
-      <Divider />
-      <CardContent>
-        <div className={classes.chartContainer}>
-          {loading ? (
-            <div className={classes.center}>
-              <CircularIndeterminate />
-            </div>
-          ) : (
-            <div className={classes.center}>
-              <span className={classes.percentErrors}>% de erros</span>
-              <Chart
-                chartType="Bar"
-                className={classes.char}
-                data={[
-                  [
-                    'Regiões',
-                    'Ciencia da Computação',
-                    'Sistemas de informação',
-                    'Engenharia de Software'
-                  ],
-                  [
-                    'Norte',
-                    obj?.ciencia[0],
-                    obj?.sistemas[0],
-                    obj?.engenharia[0]
-                  ],
-                  [
-                    'Nordeste',
-                    obj?.ciencia[1],
-                    obj?.sistemas[1],
-                    obj?.engenharia[1]
-                  ],
-                  [
-                    'Centro Oeste',
-                    obj?.ciencia[2],
-                    obj?.sistemas[2],
-                    obj?.engenharia[2]
-                  ],
-                  [
-                    'Sudeste',
-                    obj?.ciencia[3],
-                    obj?.sistemas[3],
-                    obj?.engenharia[3]
-                  ],
-                  ['Sul', obj?.ciencia[4], obj?.sistemas[4], obj?.engenharia[4]]
-                ]}
-                height={'100%'}
-                // For tests
-                options={{
-                  chart: {
-                    title: 'Dados dos anos de 2008, 2011 e 2014'
-                  }
-                }}
-                rootProps={{ 'data-testid': '2' }}
-                width={'95%'}
-              />
-            </div>
-          )}
-        </div>
-      </CardContent>
-    </Card>
-  );
-};
+;
 
 ErrosByRegion.propTypes = {
-  className: PropTypes.string
+    className: PropTypes.string
 };
 
 export default ErrosByRegion;

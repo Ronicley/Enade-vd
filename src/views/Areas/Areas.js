@@ -34,9 +34,9 @@ const Areas = () => {
 
                 <Grid
                     item
-                    lg={8}
+                    lg={7}
                     md={12}
-                    xl={9}
+                    xl={12}
                     xs={12}
                 >
                     <QuestionsByArea/>

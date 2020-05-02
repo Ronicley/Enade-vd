@@ -19,18 +19,27 @@ export async function regionsService() {
     return;
 }
 
-export async function getErrosByRegion(region, course){    
+export async function getErrosByRegion(year){
     try {
-        result = await api.get(`errosbyregion/${region}/${course}`)
+        result = await api.get(`errosbyregion/${year}`);
         return result
     } catch (error) {
         console.error(error)
     }
 };
 
-export async function getHitsByRegion(region, course){    
+export async function getHitsByRegion(year){
     try {
-        result = await api.get(`hitsbyregion/${region}/${course}`)
+        result = await api.get(`hitsbyregion/${year}`);
+        return result
+    } catch (error) {
+        console.error(error)
+    }
+};
+
+export async function getStudentsByYear(year){
+    try {
+        result = await api.get(`students-by-region/${year}`);
         return result
     } catch (error) {
         console.error(error)

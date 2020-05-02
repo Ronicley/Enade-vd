@@ -23,6 +23,7 @@ import {
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import RegionsService from '../../../../service/RegionsService';
 import { ProgressBar } from '../../../../components/Loading';
+import MaterialTable from 'material-table';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -75,34 +76,31 @@ const ListRegions = props => {
       <CardContent className={classes.content}>
         <PerfectScrollbar>
           <div className={classes.inner}>
-            <Table>
-              <TableHead>
-                <TableRow>
-                  <TableCell>Região Id</TableCell>
-
-                  <TableCell>Região nome</TableCell>
-                </TableRow>
-              </TableHead>
-              <TableBody className={classes.tableBody}>
-                {regions.length !== 0 ? (
-                  regions.map(region => (
-                    <TableRow
-                      hover
-                      key={region.id}
-                    >
-                      <TableCell>{region.id}</TableCell>
-                      <TableCell>{region.regiao}</TableCell>
-                    </TableRow>
-                  ))
-                ) : (
-                  <TableRow>
-                    <TableCell>
-                      <ProgressBar />
-                    </TableCell>
-                  </TableRow>
-                )}
-              </TableBody>
-            </Table>
+              <MaterialTable
+                  title="Regiões"
+                  columns={[
+                      { title: 'id', field: 'id' },
+                      { title: 'Região', field: 'regiao' }
+                  ]}
+                  data={regions}
+                  localization={{
+                      body: {
+                          emptyDataSourceMessage: 'Nenhum dado encontrado'
+                      },
+                      toolbar: {
+                          searchPlaceholder: 'Buscar',
+                          searchTooltip: 'Pesquisar'
+                      },
+                      pagination: {
+                          labelRowsSelect: 'Linhas',
+                          labelDisplayedRows: ' {from}-{to} página {count}',
+                          firstTooltip: 'Primeira página',
+                          previousTooltip: 'Página anterior',
+                          nextTooltip: 'Próxima página',
+                          lastTooltip: 'Última página'
+                      }
+                  }}
+              />
           </div>
         </PerfectScrollbar>
       </CardContent>

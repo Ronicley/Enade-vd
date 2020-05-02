@@ -5,25 +5,17 @@
 import React, { useEffect, useState } from 'react';
 import clsx from 'clsx';
 import PropTypes from 'prop-types';
-// import { Chart } from 'react-google-charts';
 import { makeStyles } from '@material-ui/styles';
 import PerfectScrollbar from 'react-perfect-scrollbar';
+import MaterialTable from 'material-table';
 import {
     Card,
     CardHeader,
     CardContent,
     CardActions,
-    Divider,
-    Button,
-    Table,
-    TableBody,
-    TableCell,
-    TableHead,
-    TableRow
+    Divider
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import AreasService from '../../../../service/AreasService';
-import { ProgressBar } from '../../../../components/Loading';
 
 
 const useStyles = makeStyles(
@@ -45,10 +37,6 @@ const useStyles = makeStyles(
             },
             actions: {
                 justifyContent: 'flex-end'
-            },
-            tableBody: {
-                marginTop: 12,
-                marginBottom: 12
             }
         }
     )
@@ -87,67 +75,38 @@ const LatestSales = props => {
             <CardContent className={classes.content}>
                 <PerfectScrollbar>
                     <div className={classes.inner}>
-                        <Table>
-
-                            <TableHead>
-
-                                <TableRow>
-
-                                    <TableCell>
-                                        Área Id
-                                    </TableCell>
-
-                                    <TableCell>
-                                        Área nome
-                                    </TableCell>
-
-                                </TableRow>
-                            </TableHead>
-                            <TableBody className={classes.tableBody}>
-                                {
-                                    areas.length !== 0 ? (
-                                        areas.map(
-                                            area => (
-                                                <TableRow
-                                                    hover
-                                                    key={
-                                                        area.id
-                                                    }
-                                                >
-                                                    <TableCell>
-                                                        {
-                                                            area.id
-                                                        }
-                                                    </TableCell>
-                                                    <TableCell>
-                                                        {
-                                                            area.area
-                                                        }
-                                                    </TableCell>
-                                                </TableRow>
-                                            )
-                                        )
-                                    ) : (
-
-                                        <ProgressBar/>
-
-                                    )
-
+                        <MaterialTable
+                            title="Área de avaliação"
+                            columns={[
+                                { title: 'id', field: 'id' },
+                                { title: 'Area', field: 'area' }
+                            ]}
+                            data={areas}
+                            localization={{
+                                body: {
+                                    emptyDataSourceMessage: 'Nenhum dado encontrado'
+                                },
+                                toolbar: {
+                                    searchPlaceholder: 'Buscar',
+                                    searchTooltip: 'Pesquisar'
+                                },
+                                pagination: {
+                                    labelRowsSelect: 'Linhas',
+                                    labelDisplayedRows: ' {from}-{to} página {count}',
+                                    firstTooltip: 'Primeira página',
+                                    previousTooltip: 'Página anterior',
+                                    nextTooltip: 'Próxima página',
+                                    lastTooltip: 'Última página'
                                 }
-                            </TableBody>
-                        </Table>
+                            }}
+                        />
+
                     </div>
                 </PerfectScrollbar>
             </CardContent>
             <Divider/>
             <CardActions className={classes.actions}>
-                <Button
-                    color="primary"
-                    size="small"
-                    variant="text"
-                >
-                    View all <ArrowRightIcon/>
-                </Button>
+
             </CardActions>
         </Card>
     );

@@ -21,16 +21,16 @@ const useStyles = makeStyles(() => ({
     },
     chartContainer: {
         position: 'relative',
-        height: '100%'
+        height: '100%',
     },
     content: {
         height: '100%',
         width: '100%',
-        padding: 0
+        padding: 0,
     },
     image: {
         height: 48,
-        width: 48
+        width: 48,
     },
     actions: {
         justifyContent: 'flex-end'
@@ -41,11 +41,19 @@ const useStyles = makeStyles(() => ({
         flexDirection: 'row',
         flexWrap: 'wrap',
         justifyContent: 'center',
-        height: '100%'
+        height: '100%',
+    },
+    percentErrors: {
+        fontFamily: 'Roboto',
+        fontSize: '12px',
+        left: 0,
+        marginLeft: 0,
+        transform: 'rotate(270deg)',
+        position: 'absolute',
     },
     char: {
-        marginLeft: '1.8em'
-    }
+        marginLeft: '1.5em',
+    },
 }));
 
 
@@ -59,23 +67,30 @@ const QuestionsByArea = props => {
     async function loadingData() {
         setLoading(true);
         let response, list;
+        let areas = [];
+        let questoes = [];
+        let l;
         try {
             response = await AreasService.NumberOfQuestionByArea();
 
+            l = response.data.sort((a, b) => {
+                return a.qtd_questoes - b.qtd_questoes;
+            });
+
+            l.reverse().forEach((element) => {
+                areas.push(element.area);
+                questoes.push(element.qtd_questoes);
+            });
+
+            let el = areas.pop();
+            let el1= questoes.pop();
+
+            areas.unshift(el);
+            questoes.unshift(el1);
+
             list = [
-                ['Area', 'Quantidade de questões'],
-                ['Engenharia de Software', response.data[0].qtd_questoes],
-                ['Bancos de Dados', response.data[1].qtd_questoes],
-                ['Lógica', response.data[2].qtd_questoes],
-                ['Tópicos Avançados de Engenharia', response.data[3].qtd_questoes],
-                ['Arquitetura de Computadores', response.data[4].qtd_questoes],
-                ['Estruturas de Dados', response.data[5].qtd_questoes],
-                ['Sistemas Operacionais', response.data[6].qtd_questoes],
-                ['Teorias da Computação', response.data[7].qtd_questoes],
-                ['Sistemas de Informação', response.data[8].qtd_questoes],
-                ['Redes de Computadores', response.data[9].qtd_questoes],
-                ['Inteligência Artificial', response.data[10].qtd_questoes],
-                ['Computação Gráfica', response.data[11].qtd_questoes]
+                areas,
+                questoes
             ];
 
             setData(list);
@@ -96,9 +111,8 @@ const QuestionsByArea = props => {
             className={clsx(classes.root, className)}
         >
             <CardHeader
-                title="Volume de incidencias por ano"
+                title="Quantidade de questões por area de avaliação"
             />
-            <Divider/>
             <CardContent className={classes.content}>
                 <div className={classes.chartContainer}>
                     {loading ? (
@@ -107,16 +121,22 @@ const QuestionsByArea = props => {
                         </div>
                     ) : (
                         <div className={classes.center}>
+                            <span className={classes.percentErrors}>N° questões</span>
                             <Chart
-                                width={'700px'}
-                                height={'700px'}
-                                chartType="PieChart"
-                                loader={<div>Loading Chart</div>}
+                                width={'95%'}
+                                height={'550px'}
+                                chartType="Bar"
                                 data={data}
+                                className={classes.char}
                                 options={{
-                                    title: 'Quantidade de questões por área'
+                                    // Material design options
+                                    chart: {
+                                        title: 'Dados dos anos de 2008, 2011 e 2014'
+                                    }
                                 }}
-                                rootProps={{ 'data-testid': '1' }}
+
+                                // For tests
+                                rootProps={{ 'data-testid': '2' }}
                             />
                         </div>
                     )}

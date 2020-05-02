@@ -67,17 +67,15 @@ const IncidencesByYear = props => {
 
     async function loadingData() {
         setLoading(true);
-        let data2008, data2011, data2014;
+        let dataYears;
         try {
-            data2008 = await YearsService.getVolumeIncByYear(2008);
-            data2011 = await YearsService.getVolumeIncByYear(2011);
-            data2014 = await YearsService.getVolumeIncByYear(2014);
+            dataYears = await YearsService.getVolumeIncByYear();
 
             setData([
                 ['Anos', 'Volume de Incidências '],
-                ['2008', data2008.data.volume_incidencias],
-                ['2011', data2011.data.volume_incidencias],
-                ['2014', data2014.data.volume_incidencias]
+                ['2008', dataYears.data.ano2008],
+                ['2011', dataYears.data.ano2011],
+                ['2014', dataYears.data.ano2014]
             ]);
         } catch (error) {
             console.error(error);
@@ -96,7 +94,7 @@ const IncidencesByYear = props => {
             className={clsx(classes.root, className)}
         >
             <CardHeader
-                title="Volume de incidencias por ano"
+                title="Resultados para os cursos de Ciência da Computação, Sistemas de Informação e Engenharia de Software"
             />
             <Divider/>
             <CardContent className={classes.content}>
@@ -114,12 +112,9 @@ const IncidencesByYear = props => {
                                 height={'100%'}
                                 className={classes.char}
                                 options={{
-                                    title: 'Quantidade de alunos por ano',
+                                    title:'Quantidade de alunos por ano',
                                     hAxis: { title: 'Anos', titleTextStyle: { color: '#333' } },
                                     vAxis: { minValue: 0 }
-                                    // For the legend to fit, we make the chart area smaller
-                                    // chartArea: { width: '50%', height: '70%' }
-                                    // lineWidth: 25
                                 }}
                                 rootProps={{ 'data-testid': '2' }}
                                 // For tests

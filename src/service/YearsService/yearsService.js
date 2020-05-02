@@ -19,9 +19,9 @@ export async function yearsService() {
     }
 }
 
-export async function getVolumeIncByYear(year) {
+export async function getVolumeIncByYear() {
     try {
-        result = await api.get(`resultados-por-anos/${year}`);
+        result = await api.get(`resultados-por-anos`);
         return result;
     } catch (error) {
         console.error(error);

@@ -15,7 +15,7 @@ const useStyles = makeStyles(theme => ({
     },
     chartContainer: {
         position: 'relative',
-        height: '300px'
+        height: '700px'
     },
     stats: {
         marginTop: theme.spacing(2),
@@ -49,9 +49,9 @@ const useStyles = makeStyles(theme => ({
         marginLeft: '1.5em'
     },
     textField: {
-    flex: 1,
-    float: 'left'
-}
+        flex: 1,
+        float: 'left'
+    }
 }));
 
 const HitsByRegion = props => {
@@ -62,9 +62,9 @@ const HitsByRegion = props => {
 
     const handleChange = (event) => {
         let year = event.target.value;
-        year==="1"? (
+        year === '1' ? (
             setField(`Dados para os anos de 2008, 2011 e 2014`)
-        ):(
+        ) : (
             setField(`Dados para o ano de ${year}`)
         );
 
@@ -93,20 +93,41 @@ const HitsByRegion = props => {
     async function loadingData(year) {
         setLoading(true);
         try {
-            const data = await RegionsService.getHitsByRegion(year);
-            
+            const {data} = await RegionsService.getStudentsByYear(year);
             let d = [];
-            d.push(['Regiões', 'Ciência da Computação', 'Sistemas de informação', 'Engenharia de Software']);
 
-            data.data.forEach((item) => {
-                d.push([
-                    item.regiao,
-                    item.cc,
-                    item.ss,
-                    item.eng
-                ]);
+            d.push(
+                ['Estado', 'N° estudantes'],
+                ['BR-RO', data[0].norte],
+                ['BR-AP', data[0].norte],
+                ['BR-RR', data[0].norte],
+                ['BR-AM', data[0].norte],
+                ['BR-AC', data[0].norte],
+                ['BR-PA', data[0].norte],
+                ['BR-RO', data[0].norte],
+                ['BR-TO', data[0].norte],
+                ['BR-AL', data[1].nordeste],
+                ['BR-BA', data[1].nordeste],
+                ['BR-CE', data[1].nordeste],
+                ['BR-MA', data[1].nordeste],
+                ['BR-PB', data[1].nordeste],
+                ['BR-PE', data[1].nordeste],
+                ['BR-PI', data[1].nordeste],
+                ['BR-RN', data[1].nordeste],
+                ['BR-SE', data[1].nordeste],
+                ['BR-DF', data[2].centrooeste],
+                ['BR-GO', data[2].centrooeste],
+                ['BR-MT', data[2].centrooeste],
+                ['BR-MS', data[2].centrooeste],
+                ['BR-ES', data[3].sudeste],
+                ['BR-MG', data[3].sudeste],
+                ['BR-RJ', data[3].sudeste],
+                ['BR-SP', data[3].sudeste],
+                ['BR-PR', data[4].sul],
+                ['BR-RS', data[4].sul],
+                ['BR-SC', data[4].sul],
+            );
 
-            });
             setData(d);
         } catch (error) {
             console.error(error);
@@ -128,7 +149,7 @@ const HitsByRegion = props => {
             {...rest}
             className={clsx(classes.root, className)}
         >
-            <CardHeader title="Curso com mais acertos por região"/>
+            <CardHeader title="Volume de estudantes por ano e região"/>
             <CardActions>
                 <TextField
                     id="standard-select-currency"
@@ -155,20 +176,19 @@ const HitsByRegion = props => {
                         </div>
                     ) : (
                         <div className={classes.center}>
-                            <span className={classes.percentErrors}>% de acertos</span>
                             <Chart
-                                chartType="Bar"
+                                width={'100%'}
+                                height={'100%'}
+                                chartType="GeoChart"
                                 className={classes.char}
                                 data={data}
-                                height={'100%'}
-                                // For tests
                                 options={{
-                                    chart: {
-                                        title: field
-                                    }
+                                    resolution: 'provinces',
+                                    region: 'BR',
+                                    colorAxis: { colors: ['white', 'red'] }
                                 }}
-                                rootProps={{ 'data-testid': '2' }}
-                                width={'95%'}
+                                mapsApiKey="YOUR_KEY_HERE"
+                                rootProps={{ 'data-testid': '1' }}
                             />
                         </div>
                     )}
