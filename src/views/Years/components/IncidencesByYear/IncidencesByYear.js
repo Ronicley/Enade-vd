@@ -16,43 +16,30 @@ import { CircularIndeterminate } from '../../../../components/Loading';
 
 
 const useStyles = makeStyles(() => ({
-    root: {
-        height: '100%'
-    },
     chartContainer: {
         position: 'relative',
         height: '100%'
     },
     content: {
-        height: '100%',
         width: '100%',
         padding: 0
     },
-    image: {
-        height: 48,
-        width: 48
-    },
-    actions: {
-        justifyContent: 'flex-end'
-    },
     center: {
+        flex:1,
         alignItems: 'center',
         display: 'flex',
-        flexDirection: 'row',
-        flexWrap: 'wrap',
         justifyContent: 'center',
-        height: '100%'
     },
     labelLateral: {
         fontFamily: 'Roboto',
         fontSize: '12px',
         left: 0,
-        marginLeft: '1em',
         transform: 'rotate(270deg)',
-        position: 'absolute'
+        position: 'absolute',
+        height:'20px'
     },
     char: {
-        marginLeft: '1.8em'
+        marginLeft: '2em'
     }
 }));
 
@@ -91,7 +78,7 @@ const IncidencesByYear = props => {
     return (
         <Card
             {...rest}
-            className={clsx(classes.root, className)}
+            className={ className}
         >
             <CardHeader
                 title="Resultados para os cursos de Ciência da Computação, Sistemas de Informação e Engenharia de Software"
@@ -109,7 +96,7 @@ const IncidencesByYear = props => {
                             <Chart
                                 chartType="AreaChart"
                                 data={data}
-                                height={'100%'}
+                                height={'500px'}
                                 className={classes.char}
                                 options={{
                                     title:'Quantidade de alunos por ano',

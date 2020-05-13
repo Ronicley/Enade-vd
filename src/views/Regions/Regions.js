@@ -7,7 +7,8 @@ import {
     ErrosByRegion,
     ListRegions,
     HitsByRegion,
-    StudentsByAno
+    StudentsByAno,
+    NullsByRegion
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -48,13 +49,24 @@ const Regions = () => {
 
                 <Grid
                     item
-                    lg={12}
-                    md={6}
+                    lg={6}
+                    md={12}
+                    xl={12}
+                    xs={12}
+                >
+                    <NullsByRegion/>
+                </Grid>
+
+                <Grid
+                    item
+                    lg={6}
+                    md={12}
                     xl={12}
                     xs={12}
                 >
                     <ListRegions/>
                 </Grid>
+
                 <Grid
                     item
                     lg={12}

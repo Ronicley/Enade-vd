@@ -34,15 +34,15 @@ const Years = () => {
           <IncidencesByYear />
         </Grid>
         
-        <Grid
-          item
-          lg={4}
-          md={6}
-          xl={3}
-          xs={12}
-        >
-          <UsersByDevice />
-        </Grid>
+        {/*<Grid*/}
+        {/*  item*/}
+        {/*  lg={4}*/}
+        {/*  md={6}*/}
+        {/*  xl={3}*/}
+        {/*  xs={12}*/}
+        {/*>*/}
+        {/*  <UsersByDevice />*/}
+        {/*</Grid>*/}
       </Grid>
     </div>
   );
