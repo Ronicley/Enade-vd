@@ -4,8 +4,8 @@ import { makeStyles } from '@material-ui/styles';
 import { Grid } from '@material-ui/core';
 
 import {
-  
-  UsersByDevice
+
+    AreasByCourse
 } from './components';
 
 const useStyles = makeStyles(theme => ({
@@ -31,7 +31,7 @@ const Courses = () => {
           xl={9}
           xs={12}
         >
-          <UsersByDevice />
+          <AreasByCourse />
         </Grid>
            
         

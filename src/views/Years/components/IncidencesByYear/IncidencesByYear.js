@@ -105,7 +105,7 @@ const IncidencesByYear = props => {
                         </div>
                     ) : (
                         <div className={classes.center}>
-                            <span className={classes.labelLateral}>% de erros</span>
+                            <span className={classes.labelLateral}>% de Estudantes</span>
                             <Chart
                                 chartType="AreaChart"
                                 data={data}

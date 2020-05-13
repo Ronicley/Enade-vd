@@ -14,15 +14,9 @@ import {
   CardActions,
   Divider,
   Button,
-  Table,
-  TableBody,
-  TableCell,
-  TableHead,
-  TableRow
 } from '@material-ui/core';
 import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import RegionsService from '../../../../service/RegionsService';
-import { ProgressBar } from '../../../../components/Loading';
 import MaterialTable from 'material-table';
 
 const useStyles = makeStyles(theme => ({
@@ -52,14 +46,14 @@ const useStyles = makeStyles(theme => ({
 const ListRegions = props => {
   const { className, ...rest } = props;
   const classes = useStyles();
-  const [regions, setregions] = useState([]);
+  const [regions, setRegions] = useState([]);
 
   useEffect(() => {
     let r;
     RegionsService.regionsService()
       .then(async snapshot => {
         r = await snapshot.data;
-        setregions(r);
+          setRegions(r);
       })
       .catch(error => {
         console.error(error);
