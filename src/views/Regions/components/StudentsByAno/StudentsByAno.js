@@ -58,19 +58,9 @@ const HitsByRegion = props => {
     const [loading, setLoading] = useState(false);
     const [data, setData] = useState([]);
     const [year, setYear] = useState('1');
-    const [field, setField] = useState('Dados dos anos de 2008, 2011, 2014');
-
-    const handleChange = (event) => {
-        let year = event.target.value;
-        year === '1' ? (
-            setField(`Dados para os anos de 2008, 2011 e 2014`)
-        ) : (
-            setField(`Dados para o ano de ${year}`)
-        );
-
-        setYear(year);
-    };
-
+    const [province, setProvince] = useState('1');
+    const [america, setAmerica] = useState('BR');
+    const [resolution, setResolution] = useState('provinces');
     const years = [
         {
             value: '1',
@@ -90,43 +80,69 @@ const HitsByRegion = props => {
         }
     ];
 
-    async function loadingData(year) {
+    const provinces = [
+        {
+            value: '1',
+            label: 'Regiões'
+        },
+        {
+            value: '2',
+            label: 'Brasil'
+        }
+    ];
+
+    async function loadingData(year, province) {
+
         setLoading(true);
         try {
-            const { data } = await RegionsService.getStudentsByYear(year);
+            const { data } = await RegionsService.getStudentsByYear(year, province);
+            console.log(data[0].brasil)
             let d = [];
+            if(data[0].brasil){
 
-            d.push(
-                ['Estado', 'N° estudantes'],
-                ['BR-RO', data[0].norte],
-                ['BR-AP', data[0].norte],
-                ['BR-RR', data[0].norte],
-                ['BR-AM', data[0].norte],
-                ['BR-AC', data[0].norte],
-                ['BR-PA', data[0].norte],
-                ['BR-RO', data[0].norte],
-                ['BR-TO', data[0].norte],
-                ['BR-AL', data[1].nordeste],
-                ['BR-BA', data[1].nordeste],
-                ['BR-CE', data[1].nordeste],
-                ['BR-MA', data[1].nordeste],
-                ['BR-PB', data[1].nordeste],
-                ['BR-PE', data[1].nordeste],
-                ['BR-PI', data[1].nordeste],
-                ['BR-RN', data[1].nordeste],
-                ['BR-SE', data[1].nordeste],
-                ['BR-DF', data[2].centrooeste],
-                ['BR-GO', data[2].centrooeste],
-                ['BR-MT', data[2].centrooeste],
-                ['BR-MS', data[2].centrooeste],
-                ['BR-ES', data[3].sudeste],
-                ['BR-MG', data[3].sudeste],
-                ['BR-RJ', data[3].sudeste],
-                ['BR-SP', data[3].sudeste],
-                ['BR-PR', data[4].sul],
-                ['BR-RS', data[4].sul],
-                ['BR-SC', data[4].sul]
-            );
+                d.push(
+                    ['Estado', 'N° estudantes'],
+                    ['Brazil', data[0].brasil],
+                );
+
+                setAmerica('005');
+                setResolution('');
+            }
+            else{
+                d.push(
+                    ['Estado', 'N° estudantes'],
+                    ['BR-RO', data[0].norte],
+                    ['BR-AP', data[0].norte],
+                    ['BR-RR', data[0].norte],
+                    ['BR-AM', data[0].norte],
+                    ['BR-AC', data[0].norte],
+                    ['BR-PA', data[0].norte],
+                    ['BR-RO', data[0].norte],
+                    ['BR-TO', data[0].norte],
+                    ['BR-AL', data[1].nordeste],
+                    ['BR-BA', data[1].nordeste],
+                    ['BR-CE', data[1].nordeste],
+                    ['BR-MA', data[1].nordeste],
+                    ['BR-PB', data[1].nordeste],
+                    ['BR-PE', data[1].nordeste],
+                    ['BR-PI', data[1].nordeste],
+                    ['BR-RN', data[1].nordeste],
+                    ['BR-SE', data[1].nordeste],
+                    ['BR-DF', data[2].centrooeste],
+                    ['BR-GO', data[2].centrooeste],
+                    ['BR-MT', data[2].centrooeste],
+                    ['BR-MS', data[2].centrooeste],
+                    ['BR-ES', data[3].sudeste],
+                    ['BR-MG', data[3].sudeste],
+                    ['BR-RJ', data[3].sudeste],
+                    ['BR-SP', data[3].sudeste],
+                    ['BR-PR', data[4].sul],
+                    ['BR-RS', data[4].sul],
+                    ['BR-SC', data[4].sul]
+                );
+                setAmerica('BR');
+                setResolution('provinces');
+            }
 
             setData(d);
         } catch (error) {
@@ -137,9 +153,9 @@ const HitsByRegion = props => {
     }
 
     useEffect(() => {
-        loadingData(year);
+        loadingData(year, province);
 
-    }, [year]);
+    }, [year, province]);
 
     const { className, ...rest } = props;
 
@@ -158,9 +174,23 @@ const HitsByRegion = props => {
                     className={classes.textField}
                     label="Anos"
                     value={year}
-                    onChange={handleChange}
+                    onChange={event => setYear(event.target.value)}
                 >
                     {years.map((option) => (
+                        <MenuItem key={option.value} value={option.value}>
+                            {option.label}
+                        </MenuItem>
+                    ))}
+                </TextField>
+                <TextField
+                    id="standard-select-currency"
+                    select
+                    className={classes.textField}
+                    label="Região"
+                    value={province}
+                    onChange={event => setProvince(event.target.value)}
+                >
+                    {provinces.map((option) => (
                         <MenuItem key={option.value} value={option.value}>
                             {option.label}
                         </MenuItem>
@@ -184,8 +214,8 @@ const HitsByRegion = props => {
                                 className={classes.char}
                                 data={data}
                                 options={{
-                                    resolution: 'provinces',
-                                    region: 'BR',
+                                    resolution: resolution,
+                                    region: america,
                                     colorAxis: { colors: ['white', 'red'] }
                                 }}
                                 mapsApiKey="YOUR_KEY_HERE"

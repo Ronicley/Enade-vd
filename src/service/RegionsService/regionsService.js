@@ -46,9 +46,9 @@ export async function getNullsByRegion(year){
     }
 };
 
-export async function getStudentsByYear(year){
+export async function getStudentsByYear(year, province){
     try {
-        result = await api.get(`students-by-region/${year}`);
+        result = await api.get(`students-by-region/${year}/${province}`);
         return result
     } catch (error) {
         console.error(error)
