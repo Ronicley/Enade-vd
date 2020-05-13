@@ -112,11 +112,11 @@ const HitsByRegion = props => {
             console.error(error);
             setLoading(false);
         }
+        setLoading(false)
     }
 
     useEffect(() => {
         loadingData(year);
-        setLoading(false);
     }, [year]);
 
     const { className, ...rest } = props;

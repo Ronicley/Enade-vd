@@ -93,7 +93,7 @@ const HitsByRegion = props => {
     async function loadingData(year) {
         setLoading(true);
         try {
-            const {data} = await RegionsService.getStudentsByYear(year);
+            const { data } = await RegionsService.getStudentsByYear(year);
             let d = [];
 
             d.push(
@@ -125,7 +125,7 @@ const HitsByRegion = props => {
                 ['BR-SP', data[3].sudeste],
                 ['BR-PR', data[4].sul],
                 ['BR-RS', data[4].sul],
-                ['BR-SC', data[4].sul],
+                ['BR-SC', data[4].sul]
             );
 
             setData(d);
@@ -133,11 +133,12 @@ const HitsByRegion = props => {
             console.error(error);
             setLoading(false);
         }
+        setLoading(false);
     }
 
     useEffect(() => {
         loadingData(year);
-        setLoading(false);
+
     }, [year]);
 
     const { className, ...rest } = props;

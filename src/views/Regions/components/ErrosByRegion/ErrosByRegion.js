@@ -50,9 +50,9 @@ const ErrosByRegion = props => {
 
         const handleChange = (event) => {
             let year = event.target.value;
-            year==="1"? (
+            year === '1' ? (
                 setField(`Dados para os anos de 2008, 2011 e 2014`)
-            ):(
+            ) : (
                 setField(`Dados para o ano de ${year}`)
             );
 
@@ -100,12 +100,12 @@ const ErrosByRegion = props => {
                 console.error(error);
                 setLoading(false);
             }
+            setLoading(false)
         }
 
 
         useEffect(() => {
             loadingData(year);
-            setLoading(false);
         }, [year]);
 
         const { className, ...rest } = props;
@@ -137,29 +137,30 @@ const ErrosByRegion = props => {
                 <Divider/>
                 <CardContent>
                     <div className={classes.chartContainer}>
-                        {loading ? (
-                            <div className={classes.center}>
-                                <CircularIndeterminate/>
-                            </div>
-                        ) : (
-                            <div className={classes.center}>
-                                <span className={classes.percentErrors}>% de erros</span>
-                                <Chart
-                                    chartType="Bar"
-                                    className={classes.char}
-                                    data={data}
-                                    height={'100%'}
-                                    // For tests
-                                    options={{
-                                        chart: {
-                                            title: field
-                                        }
-                                    }}
-                                    rootProps={{ 'data-testid': '2' }}
-                                    width={'95%'}
-                                />
-                            </div>
-                        )}
+                        {
+                            loading ? (
+                                <div className={classes.center}>
+                                    <CircularIndeterminate/>
+                                </div>
+                            ) : (
+                                <div className={classes.center}>
+                                    <span className={classes.percentErrors}>% de erros</span>
+                                    <Chart
+                                        chartType="Bar"
+                                        className={classes.char}
+                                        data={data}
+                                        height={'100%'}
+                                        options={{
+                                            chart: {
+                                                title: field
+                                            }
+                                        }}
+                                        rootProps={{ 'data-testid': '2' }}
+                                        width={'95%'}
+                                    />
+                                </div>
+                            )
+                        }
                     </div>
                 </CardContent>
             </Card>
