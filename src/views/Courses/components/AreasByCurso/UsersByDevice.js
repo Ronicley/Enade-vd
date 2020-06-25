@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
@@ -50,8 +49,6 @@ const AreasByCourse = props => {
         try {
             response = await CousersService.CoursersService();
 
-            console.log(response.data);
-
             let word = [];
 
             response.data.forEach(
@@ -64,8 +61,6 @@ const AreasByCourse = props => {
 
                 }
             );
-
-            console.log(word);
 
             setData(word);
 

@@ -96,7 +96,6 @@ const HitsByRegion = props => {
         setLoading(true);
         try {
             const { data } = await RegionsService.getStudentsByYear(year, province);
-            console.log(data[0].brasil)
             let d = [];
             if(data[0].brasil){
 

@@ -1,15 +1,12 @@
 import React, { useEffect, useState } from 'react';
-import clsx from 'clsx';
 import PropTypes from 'prop-types';
 import { makeStyles } from '@material-ui/styles';
 import {
     Card,
     CardHeader,
     CardContent,
-    CardActions,
     Divider
 } from '@material-ui/core';
-
 import Chart from 'react-google-charts';
 import YearsService from '../../../../service/YearsService';
 import { CircularIndeterminate } from '../../../../components/Loading';
@@ -92,7 +89,7 @@ const IncidencesByYear = props => {
                         </div>
                     ) : (
                         <div className={classes.center}>
-                            <span className={classes.labelLateral}>% de Estudantes</span>
+                            <span className={classes.labelLateral}>N° de Estudantes</span>
                             <Chart
                                 chartType="AreaChart"
                                 data={data}
@@ -113,15 +110,6 @@ const IncidencesByYear = props => {
                 </div>
             </CardContent>
             <Divider/>
-            <CardActions className={classes.actions}>
-                {/*<Button*/}
-                {/*  color="primary"*/}
-                {/*  size="small"*/}
-                {/*  variant="text"*/}
-                {/*>*/}
-                {/*  View all <ArrowRightIcon />*/}
-                {/*</Button>*/}
-            </CardActions>
         </Card>
     );
 };

@@ -6,7 +6,6 @@ import {
     Card,
     CardHeader,
     CardContent,
-    CardActions,
     Divider
 } from '@material-ui/core';
 
@@ -143,15 +142,6 @@ const QuestionsByArea = props => {
                 </div>
             </CardContent>
             <Divider/>
-            <CardActions className={classes.actions}>
-                {/*<Button*/}
-                {/*  color="primary"*/}
-                {/*  size="small"*/}
-                {/*  variant="text"*/}
-                {/*>*/}
-                {/*  View all <ArrowRightIcon />*/}
-                {/*</Button>*/}
-            </CardActions>
         </Card>
     );
 };

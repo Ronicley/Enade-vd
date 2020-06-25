@@ -10,8 +10,6 @@ import {
   Areas as AreasView,
   Courses as CoursesView,
   Regions as RegionsView,
-  Typography as TypographyView,
-  Icons as IconsView,
   Years as YearsView,
   NotFound as NotFoundView
 } from './views';
@@ -41,18 +39,6 @@ const Routes = () => {
         exact
         layout={MainLayout}
         path="/regioes"
-      />
-      <RouteWithLayout
-        component={TypographyView}
-        exact
-        layout={MainLayout}
-        path="/typography"
-      />
-      <RouteWithLayout
-        component={IconsView}
-        exact
-        layout={MainLayout}
-        path="/icons"
       />
       <RouteWithLayout
         component={YearsView}

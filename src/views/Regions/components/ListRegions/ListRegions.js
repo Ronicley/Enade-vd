@@ -11,11 +11,8 @@ import {
   Card,
   CardHeader,
   CardContent,
-  CardActions,
   Divider,
-  Button,
 } from '@material-ui/core';
-import ArrowRightIcon from '@material-ui/icons/ArrowRight';
 import RegionsService from '../../../../service/RegionsService';
 import MaterialTable from 'material-table';
 
@@ -99,15 +96,6 @@ const ListRegions = props => {
         </PerfectScrollbar>
       </CardContent>
       <Divider />
-      <CardActions className={classes.actions}>
-        <Button
-          color="primary"
-          size="small"
-          variant="text"
-        >
-          View all <ArrowRightIcon />
-        </Button>
-      </CardActions>
     </Card>
   );
 };
